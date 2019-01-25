@@ -17,7 +17,6 @@ public class Scanner {
 
     private final char[] buffer;
     private final int max;
-    private final Stack<Integer> stack;
 
     private int pos;
 
@@ -25,7 +24,6 @@ public class Scanner {
         this.buffer = input.toCharArray();
         this.pos = 0;
         this.max = this.buffer.length;
-        this.stack = new Stack<>();
     }
 
     public int pos() {
@@ -45,20 +43,6 @@ public class Scanner {
 
     public boolean hasNext() {
         return (pos < max);
-    }
-
-    public int push() {
-        stack.push(pos);
-        return pos;
-    }
-
-    public int pop() {
-        if (stack.isEmpty()) {
-            pos = 0;
-        } else {
-            pos = stack.pop();
-        }
-        return pos;
     }
 
     public int back() {

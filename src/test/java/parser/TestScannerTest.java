@@ -170,28 +170,5 @@ public class TestScannerTest {
         assertFalse(si.hasNext());
     }
 
-    @Test
-    public void testStringIteratorPushPop() {
-        Scanner si = new Scanner("ABC");
-        assertTrue(si.hasNext());
-        assertEquals('A', si.next());
-        assertTrue(si.hasNext());
-
-        assertEquals(1, si.push());
-
-        assertEquals('B', si.next());
-        assertTrue(si.hasNext());
-        assertEquals('C', si.next());
-        assertFalse(si.hasNext());
-
-        assertEquals(1, si.pop());
-        assertEquals('B', si.next());
-        assertTrue(si.hasNext());
-        assertEquals('C', si.next());
-        assertFalse(si.hasNext());
-
-        assertEquals(0, si.pop());
-
-    }
 
 }

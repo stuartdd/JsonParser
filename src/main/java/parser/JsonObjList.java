@@ -7,14 +7,16 @@ package parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author stuart
  */
 public class JsonObjList implements JsonObj {
-    List<JsonObj> list = new ArrayList<>();
-    
+
+    private final List<JsonObj> list = new ArrayList<>();
+
     public void add(JsonObj obj) {
         list.add(obj);
     }
@@ -33,15 +35,37 @@ public class JsonObjList implements JsonObj {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int mark = 0;
-        for (JsonObj jo:list) {
+        for (JsonObj jo : list) {
             sb.append(jo.toString());
             mark = sb.length();
             sb.append(',');
         }
         sb.setLength(mark);
-        return '['+sb.toString()+']';
+        return '[' + sb.toString() + ']';
     }
 
+    @Override
+    public Boolean getBoolean() {
+        return null;
+    }
+
+    @Override
+    public Map<String, JsonObj> getMap() {
+        return null;
+    }
+
+    @Override
+    public List<JsonObj> getList() {
+        return list;
+    }
     
-    
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public JsonNumber getNumber() {
+        return null;
+    }
 }

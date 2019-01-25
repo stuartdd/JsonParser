@@ -5,16 +5,20 @@
  */
 package parser;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author stuart
  */
 public class JsonObjFalse implements JsonObj {
+
     @Override
     public boolean isEmpty() {
         return false;
     }
-    
+
     @Override
     public int size() {
         return 0;
@@ -24,5 +28,29 @@ public class JsonObjFalse implements JsonObj {
     public String toString() {
         return "false";
     }
-    
+
+    @Override
+    public Boolean getBoolean() {
+        return false;
+    }
+
+    @Override
+    public Map<String, JsonObj> getMap() {
+        return null;
+    }
+
+    @Override
+    public List<JsonObj> getList() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public JsonNumber getNumber() {
+        return null;
+    }
 }

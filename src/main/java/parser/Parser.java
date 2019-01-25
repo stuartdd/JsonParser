@@ -12,7 +12,7 @@ package parser;
 public class Parser {
 
     private static final String VALUE_LIST = "'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE'";
-    
+
     public static JsonObj parse(String json) {
         Scanner sc = new Scanner(json);
         JsonObj obj = parseListOrObject(sc);
@@ -23,7 +23,7 @@ public class Parser {
         return obj;
     }
 
-    public static JsonObj parseListOrObject(Scanner sc) {
+    private static JsonObj parseListOrObject(Scanner sc) {
         while (true) {
             Token token = sc.nextToken();
             switch (token.getType()) {
@@ -32,7 +32,7 @@ public class Parser {
                 case OBJECT:
                     return parseObject(sc);
                 default:
-                    throw new JsonParserException("Invalid JSON. Expecting { or { as first non space char");
+                    throw new JsonParserException("Invalid JSON. Expecting { or [ as first non space char");
             }
         }
     }
@@ -40,7 +40,7 @@ public class Parser {
     private static JsonObj parseObject(Scanner sc) {
         Token token = sc.nextToken();
         JsonObj result = null;
-        JsonObjMap map = null;
+        JsonObjMap map = new JsonObjMap();
         while (!token.isObjectClose()) {
             if (token.isQuotedString()) {
                 String name = token.getStringValue();
@@ -50,17 +50,19 @@ public class Parser {
                     String v = token.getStringValue();
                     switch (token.getType()) {
                         case NUMBER:
-                            result = new JsonObjNum(token.getStringValue());
+                            result = new JsonObjNum(v);
                             break;
                         case VALUE:
                             if (v.equalsIgnoreCase("null")) {
                                 result = new JsonObjNull();
-                            }
-                            if (v.equalsIgnoreCase("true")) {
-                                result = new JsonObjTrue();
-                            }
-                            if (v.equalsIgnoreCase("false")) {
-                                result = new JsonObjFalse();
+                            } else {
+                                if (v.equalsIgnoreCase("true")) {
+                                    result = new JsonObjTrue();
+                                } else {
+                                    if (v.equalsIgnoreCase("false")) {
+                                        result = new JsonObjFalse();
+                                    }
+                                }
                             }
                             break;
                         case QUOTED_STRING:
@@ -68,21 +70,15 @@ public class Parser {
                             break;
                     }
                     if (result == null) {
-                        throw new JsonParserException("Expected "+VALUE_LIST+", '{', '[' after ':'");
+                        throw new JsonParserException("Expected " + VALUE_LIST + ", '{', '[' after ':'");
                     }
                     token = sc.nextToken();
+                    map.put(name, result);
                     if (token.isObjectClose()) {
-                        if (map == null) {
-                            return result;
-                        }
-                        map.add(name, result);
                         return map;
                     }
-                    if (token.isComma()) {
-                        map = new JsonObjMap();
-                        map.add(name, result);
-                    } else {
-                        throw new JsonParserException("Expected a valid "+VALUE_LIST);
+                    if (!token.isComma()) {
+                        throw new JsonParserException("Expected a valid " + VALUE_LIST);
                     }
                 } else {
                     throw new JsonParserException("Expected a ':' after a named object");
@@ -90,6 +86,7 @@ public class Parser {
             } else {
                 throw new JsonParserException("Expected a quoted string value for a named object");
             }
+            token = sc.nextToken();
         }
         throw new JsonParserException("Expected an object");
     }

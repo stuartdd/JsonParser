@@ -27,6 +27,7 @@ public class ListParserTest {
         assertEquals(2, obj.size());
         assertEquals("[[value,abc,true],[1,2]]", obj.toString());
     }
+    
     @Test
     public void testParserRecursiveList1() {
         JsonObj obj = Parser.parse("[[value, abc, true]]");

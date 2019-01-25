@@ -5,6 +5,9 @@
  */
 package parser;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author stuart
@@ -12,4 +15,9 @@ package parser;
 public interface JsonObj {
     boolean isEmpty();
     int size();
+    JsonNumber getNumber();
+    String getName();
+    Boolean getBoolean();
+    Map<String, JsonObj> getMap();
+    List<JsonObj> getList();
 }
