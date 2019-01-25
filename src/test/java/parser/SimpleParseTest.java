@@ -19,8 +19,7 @@ public class SimpleParseTest {
         JsonObj obj = Parser.parse(" [ \"STRING\" ] ");
         assertNotNull(obj);
     }
-   
-    
+
     @Test
     public void testParserSB() {
         JsonObj obj = Parser.parse(" [] ");
