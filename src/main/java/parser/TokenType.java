@@ -7,9 +7,16 @@ package parser;
 
 /**
  *
- * @author stuart
+ * @author 802996013
  */
-public interface JsonObj {
-    boolean isEmpty();
-    int size();
+public enum TokenType {
+    ARRAY,
+    ARRAY_CLOSE,
+    OBJECT,
+    OBJECT_CLOSE,
+    COMMA,
+    QUOTED_STRING,
+    VALUE,
+    NUMBER,
+    COLON
 }

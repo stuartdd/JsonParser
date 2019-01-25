@@ -11,53 +11,118 @@ package parser;
  */
 public class Parser {
 
+    private static final String VALUE_LIST = "'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE'";
+    
     public static JsonObj parse(String json) {
-        return parse(new Scanner(json), true);
-    }
-
-    public static JsonObj parse(Scanner scanner, boolean root) {
-        while (scanner.hasNext()) {
-            scanner.skipSpace();
-            if (scanner.hasNext()) {
-                if (scanner.next() == '[') {
-                    return scanList(scanner);
-                } else {
-                    scanner.back();
-                    if (scanner.next() == '{') {
-                        return scanMap();
-                    } else {
-                        scanner.back();
-                        if (root) {
-                            throw new JsonParserException("Invalid JSON. Expecting { or { as first non space char");
-                        }
-                        if (scanner.isNext(CharSet.DQUOTE)) {
-                            return scanNamedObj(scanner);
-                        } else {
-                            scanner.back();
-                        }
-                    }
-                }
-            }
-
+        Scanner sc = new Scanner(json);
+        JsonObj obj = parseListOrObject(sc);
+        sc.skipSpace();
+        if (sc.hasNext()) {
+            throw new JsonParserException("Invalid JSON. Tokens exist after parsing was finished");
         }
-        throw new JsonParserException("Invalid JSON. Expecting { or { as first non space char");
+        return obj;
     }
 
-    private static JsonObj scanNamedObj(Scanner sc) {
-        return new JsonObjNamed(parseForName(sc), parse(sc, false));
+    public static JsonObj parseListOrObject(Scanner sc) {
+        while (true) {
+            Token token = sc.nextToken();
+            switch (token.getType()) {
+                case ARRAY:
+                    return parseList(sc);
+                case OBJECT:
+                    return parseObject(sc);
+                default:
+                    throw new JsonParserException("Invalid JSON. Expecting { or { as first non space char");
+            }
+        }
     }
 
-    private static String parseForName(Scanner sc) {
-        return "";
+    private static JsonObj parseObject(Scanner sc) {
+        Token token = sc.nextToken();
+        JsonObj result = null;
+        JsonObjMap map = null;
+        while (!token.isObjectClose()) {
+            if (token.isQuotedString()) {
+                String name = token.getStringValue();
+                token = sc.nextToken();
+                if (token.isColon()) {
+                    token = sc.nextToken();
+                    String v = token.getStringValue();
+                    switch (token.getType()) {
+                        case NUMBER:
+                            result = new JsonObjNum(token.getStringValue());
+                            break;
+                        case VALUE:
+                            if (v.equalsIgnoreCase("null")) {
+                                result = new JsonObjNull();
+                            }
+                            if (v.equalsIgnoreCase("true")) {
+                                result = new JsonObjTrue();
+                            }
+                            if (v.equalsIgnoreCase("false")) {
+                                result = new JsonObjFalse();
+                            }
+                            break;
+                        case QUOTED_STRING:
+                            result = new JsonObjNamed(name, new JsonObjValue(v));
+                            break;
+                    }
+                    if (result == null) {
+                        throw new JsonParserException("Expected "+VALUE_LIST+", '{', '[' after ':'");
+                    }
+                    token = sc.nextToken();
+                    if (token.isObjectClose()) {
+                        if (map == null) {
+                            return result;
+                        }
+                        map.add(name, result);
+                        return map;
+                    }
+                    if (token.isComma()) {
+                        map = new JsonObjMap();
+                        map.add(name, result);
+                    } else {
+                        throw new JsonParserException("Expected a valid "+VALUE_LIST);
+                    }
+                } else {
+                    throw new JsonParserException("Expected a ':' after a named object");
+                }
+            } else {
+                throw new JsonParserException("Expected a quoted string value for a named object");
+            }
+        }
+        throw new JsonParserException("Expected an object");
     }
 
-    private static JsonObj scanMap() {
-        return new JsonObjMap();
-    }
-
-    private static JsonObj scanList(Scanner sc) {
+    private static JsonObj parseList(Scanner sc) {
         JsonObjList list = new JsonObjList();
-        list.add(parse(sc, false));
+        Token token = sc.nextToken();
+        TokenType listType = token.getType();
+        while (!token.isArrayClose()) {
+            if (token.isType(listType)) {
+                switch (token.getType()) {
+                    case NUMBER:
+                        list.add(new JsonObjNum(token.getStringValue()));
+                        break;
+                    case VALUE:
+                    case QUOTED_STRING:
+                        list.add(new JsonObjValue(token.getStringValue()));
+                        break;
+                    case ARRAY:
+                        list.add(parseList(sc));
+                }
+            } else {
+                throw new JsonParserException("Array element must be of the same type");
+            }
+            token = sc.nextToken();
+            if (token.isComma() || (token.isArrayClose())) {
+                if (token.isComma()) {
+                    token = sc.nextToken();
+                }
+            } else {
+                throw new JsonParserException("Unexpected end of list");
+            }
+        }
         return list;
     }
 }

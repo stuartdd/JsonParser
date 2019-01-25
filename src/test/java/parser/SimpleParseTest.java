@@ -14,34 +14,23 @@ import org.junit.Test;
  */
 public class SimpleParseTest {
 
-    @Test
-    public void testParserNameNoObject() {
-        JsonObj obj = Parser.parse(" [ \"STRING\" ] ");
-        assertNotNull(obj);
-    }
 
+    
     @Test
-    public void testParserSB() {
-        JsonObj obj = Parser.parse(" [] ");
+    public void testParserEmptyList() {
+        JsonObj obj = Parser.parse(" [ ] ");
         assertNotNull(obj);
-    }
-
-    @Test
-    public void testParserCB() {
-        JsonObj obj = Parser.parse(" {} ");
-        assertNotNull(obj);
+        assertTrue(obj.isEmpty());
     }
 
     @Test(expected = JsonParserException.class)
     public void testParserNotJson() {
-        JsonObj obj = Parser.parse(" \"A\"");
-        assertNotNull(obj);
+        Parser.parse(" \"A\"");
     }
 
     @Test(expected = JsonParserException.class)
     public void testParserNotEmptyJson() {
-        JsonObj obj = Parser.parse(" ");
-        assertNotNull(obj);
+        Parser.parse(" ");
     }
 
 }

@@ -14,4 +14,19 @@ import java.util.Map;
  */
 public class JsonObjMap implements JsonObj {
     Map<String, JsonObj> map = new HashMap<>();
+
+    @Override
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+    
+    @Override
+    public int size() {
+        return map.size();
+    }
+
+    void add(String name, JsonObj result) {
+        map.put(name, result);
+    }
+
 }

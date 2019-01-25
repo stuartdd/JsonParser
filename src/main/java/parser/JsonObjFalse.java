@@ -9,27 +9,20 @@ package parser;
  *
  * @author stuart
  */
-public class JsonObjNamed implements JsonObj {
-    private final String name;
-    private final JsonObj obj;
-
-    public JsonObjNamed(String name, JsonObj obj) {
-        this.name = name;
-        this.obj = obj;
-    }
-
+public class JsonObjFalse implements JsonObj {
     @Override
     public boolean isEmpty() {
-        return (obj == null);
+        return false;
     }
     
     @Override
     public int size() {
-        if (isEmpty()) {
-            return 0;
-        }
-        return obj.size();
+        return 0;
     }
 
+    @Override
+    public String toString() {
+        return "false";
+    }
     
 }

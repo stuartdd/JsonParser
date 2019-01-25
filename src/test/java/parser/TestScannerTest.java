@@ -7,8 +7,6 @@ package parser;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import parser.CharSet;
-import parser.Scanner;
 
 /**
  *
@@ -17,12 +15,62 @@ import parser.Scanner;
 public class TestScannerTest {
 
     @Test
+    public void quotedStringTestTokens() {
+        Scanner si = new Scanner("\"ABC\" [ ], {,123,}: true;a123=");
+        Token t = si.nextToken();
+        assertEquals(TokenType.QUOTED_STRING, t.getType());
+        assertEquals("ABC", t.getStringValue());
+
+        assertEquals(TokenType.ARRAY, si.nextToken().getType());
+        assertEquals(TokenType.ARRAY_CLOSE, si.nextToken().getType());
+        assertEquals(TokenType.COMMA, si.nextToken().getType());
+        assertEquals(TokenType.OBJECT, si.nextToken().getType());
+        assertEquals(TokenType.COMMA, si.nextToken().getType());
+
+        t = si.nextToken();
+        assertEquals(TokenType.NUMBER, t.getType());
+        assertEquals("123", t.getStringValue());
+
+        assertEquals(TokenType.COMMA, si.nextToken().getType());
+        assertEquals(TokenType.OBJECT_CLOSE, si.nextToken().getType());
+        assertEquals(TokenType.COLON, si.nextToken().getType());
+
+        t = si.nextToken();
+        assertEquals(TokenType.VALUE, t.getType());
+        assertEquals("true", t.getStringValue());
+
+        try {
+            t = si.nextToken();
+            fail("; is unrecognised");
+        } catch (JsonParserException e) {
+            assertTrue(e.getMessage().contains("Unrecognised"));
+            t = si.nextToken();
+            assertEquals(TokenType.VALUE, t.getType());
+            assertEquals("a123", t.getStringValue());
+        }
+        try {
+            t = si.nextToken();
+            fail("= is unrecognised");
+        } catch (JsonParserException e) {
+            assertTrue(e.getMessage().contains("Unrecognised"));
+        }
+        try {
+            t = si.nextToken();
+            fail("Unexpected end");
+        } catch (JsonParserException e) {
+            assertTrue(e.getMessage().contains("Unexpected"));
+        }
+
+    }
+
+    @Test
     public void quotedStringTestSimple() {
         Scanner si = new Scanner("\"ABC\"");
         si.skipToNext('"');
         assertEquals('"', si.next());
         assertEquals("ABC", si.scanQuotedString('"'));
     }
+
     @Test
     public void quotedStringTestBraces() {
         Scanner si = new Scanner("\"['] {} , '\"");
@@ -56,6 +104,7 @@ public class TestScannerTest {
         assertTrue(si.hasNext());
         si.skipToNext('X');
         assertFalse(si.hasNext());
+        assertEquals(0, si.next());
     }
 
     @Test

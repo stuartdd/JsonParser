@@ -18,4 +18,30 @@ public class JsonObjList implements JsonObj {
     public void add(JsonObj obj) {
         list.add(obj);
     }
+
+    @Override
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        int mark = 0;
+        for (JsonObj jo:list) {
+            sb.append(jo.toString());
+            mark = sb.length();
+            sb.append(',');
+        }
+        sb.setLength(mark);
+        return '['+sb.toString()+']';
+    }
+
+    
+    
 }
