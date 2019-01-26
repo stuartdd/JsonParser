@@ -36,7 +36,7 @@ public class JsonObjMap implements JsonObj {
         StringBuilder sb = new StringBuilder();
         int mark = 0;
         for (Map.Entry<String, JsonObj> e : map.entrySet()) {
-            sb.append(e.getKey()).append('=').append(e.getValue().toString());
+             sb.append(e.getKey()).append('=').append((e.getValue()==null?"null":e.getValue().toString()));
             mark = sb.length();
             sb.append(',');
         }

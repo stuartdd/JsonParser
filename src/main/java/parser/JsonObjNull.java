@@ -21,7 +21,7 @@ public class JsonObjNull implements JsonObj {
 
     @Override
     public int size() {
-        return 4;
+        return 0;
     }
 
     @Override

@@ -57,10 +57,10 @@ public class Parser {
                                 result = new JsonObjNull();
                             } else {
                                 if (v.equalsIgnoreCase("true")) {
-                                    result = new JsonObjTrue();
+                                    result = new JsonObjBoolean(true);
                                 } else {
                                     if (v.equalsIgnoreCase("false")) {
-                                        result = new JsonObjFalse();
+                                        result = new JsonObjBoolean(false);
                                     }
                                 }
                             }

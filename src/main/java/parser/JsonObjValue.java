@@ -22,15 +22,15 @@ public class JsonObjValue implements JsonObj {
 
     @Override
     public boolean isEmpty() {
+        if (stringValue == null) {
+            return true;
+        }
         return (stringValue.length() == 0);
     }
 
     @Override
     public int size() {
-        if (stringValue == null) {
-            return 0;
-        }
-        return stringValue.length();
+        return 0;
     }
 
     @Override

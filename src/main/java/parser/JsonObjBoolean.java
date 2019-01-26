@@ -12,8 +12,14 @@ import java.util.Map;
  *
  * @author stuart
  */
-public class JsonObjFalse implements JsonObj {
+public class JsonObjBoolean implements JsonObj {
 
+    private final boolean bool;
+
+    public JsonObjBoolean(boolean bool) {
+        this.bool = bool;
+    }
+    
     @Override
     public boolean isEmpty() {
         return false;
@@ -26,12 +32,12 @@ public class JsonObjFalse implements JsonObj {
 
     @Override
     public String toString() {
-        return "false";
+        return String.valueOf(bool);
     }
 
     @Override
     public Boolean getBoolean() {
-        return false;
+        return bool;
     }
 
     @Override

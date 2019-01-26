@@ -29,14 +29,14 @@ public class JsonObjNamed implements JsonObj {
 
     @Override
     public int size() {
-        if (isEmpty()) {
-            return 0;
-        }
-        return obj.size();
+        return 0;
     }
 
     @Override
     public String toString() {
+        if (obj == null) {
+            return null;
+        }
         return obj.toString();
     }
 
@@ -59,7 +59,7 @@ public class JsonObjNamed implements JsonObj {
     public String getName() {
         return name;
     }
- 
+
     @Override
     public JsonNumber getNumber() {
         return null;
