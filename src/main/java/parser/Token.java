@@ -49,5 +49,10 @@ public class Token {
     boolean isType(TokenType ofType) {
         return this.type.equals(ofType);
     }
+
+    @Override
+    public String toString() {
+        return "Token :" + type + " :"+stringValue;
+    }
     
 }

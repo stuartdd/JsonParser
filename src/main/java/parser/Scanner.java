@@ -5,10 +5,6 @@
  */
 package parser;
 
-import java.math.MathContext;
-import java.util.Map;
-import java.util.Stack;
-
 /**
  *
  * @author stuart
@@ -31,11 +27,14 @@ public class Scanner {
     }
 
     public char peek() {
-        return buffer[pos];
+        if (pos < max) {
+            return buffer[pos];
+        }
+        return 0;
     }
 
     public char next() {
-        if (hasNext()) {
+        if (pos < max) {
             return buffer[pos++];
         }
         return 0;
@@ -157,4 +156,30 @@ public class Scanner {
         }
         return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        int from = pos - 20;
+        if (from < 0) {
+            from = 0;
+        }
+        int p = from;
+        while ((sb.length() < 40) && (p < buffer.length)) {
+            if (p == pos) {
+                sb.append('|');
+            }
+            if (buffer[p] < ' ') {
+                sb.append(' ');
+            } else {
+                sb.append(buffer[p]);
+            }
+            if (p == pos) {
+                sb.append('|');
+            }
+            p++;
+        }
+        return "Scanner len[" + buffer.length + "] pos[" + pos + "] " + (pos < max ? "next["+buffer[pos]+"]" : "") + "-->" + sb + "<--";
+    }
+
 }

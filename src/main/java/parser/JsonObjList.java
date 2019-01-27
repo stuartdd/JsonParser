@@ -18,7 +18,15 @@ public class JsonObjList implements JsonObj {
     private final List<JsonObj> list = new ArrayList<>();
 
     public void add(JsonObj obj) {
-        list.add(obj);
+        if (list.isEmpty()) {
+            list.add(obj);
+        } else {
+            if (isCompatibleListType(list.get(0))) {
+                list.add(obj);
+            } else {
+                throw new JsonParserException("Objects in a list must be of the same type");
+            }
+        }
     }
 
     @Override
@@ -58,7 +66,7 @@ public class JsonObjList implements JsonObj {
     public List<JsonObj> getList() {
         return list;
     }
-    
+
     @Override
     public String getName() {
         return null;
@@ -67,5 +75,9 @@ public class JsonObjList implements JsonObj {
     @Override
     public JsonNumber getNumber() {
         return null;
+    }
+
+    private boolean isCompatibleListType(JsonObj obj) {
+        return (list.get(0).getClass().equals(obj.getClass()));
     }
 }

@@ -68,6 +68,13 @@ public class Parser {
                         case QUOTED_STRING:
                             result = new JsonObjNamed(name, new JsonObjValue(v));
                             break;
+                        case ARRAY:
+                            sc.back();
+                            result = parseList(sc);
+                            break;
+                        case OBJECT:
+                            result = parseObject(sc);
+                            break;
                     }
                     if (result == null) {
                         throw new JsonParserException("Expected " + VALUE_LIST + ", '{', '[' after ':'");
@@ -92,25 +99,23 @@ public class Parser {
     }
 
     private static JsonObj parseList(Scanner sc) {
-        JsonObjList list = new JsonObjList();
         Token token = sc.nextToken();
-        TokenType listType = token.getType();
+        JsonObjList list = new JsonObjList();
+        JsonObj result = null;
         while (!token.isArrayClose()) {
-            if (token.isType(listType)) {
-                switch (token.getType()) {
-                    case NUMBER:
-                        list.add(new JsonObjNum(token.getStringValue()));
-                        break;
-                    case VALUE:
-                    case QUOTED_STRING:
-                        list.add(new JsonObjValue(token.getStringValue()));
-                        break;
-                    case ARRAY:
-                        list.add(parseList(sc));
-                }
-            } else {
-                throw new JsonParserException("Array element must be of the same type");
+            switch (token.getType()) {
+                case NUMBER:
+                    result = new JsonObjNum(token.getStringValue());
+                    break;
+                case VALUE:
+                case QUOTED_STRING:
+                    result = new JsonObjValue(token.getStringValue());
+                    break;
+                case ARRAY:
+                    result = parseList(sc);
             }
+            list.add(result);
+
             token = sc.nextToken();
             if (token.isComma() || (token.isArrayClose())) {
                 if (token.isComma()) {
