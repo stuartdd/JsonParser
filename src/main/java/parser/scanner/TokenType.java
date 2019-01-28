@@ -14,9 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
-public class Main {
-
-    public static void main(String[] args) {
-    }
+package parser.scanner;
+public enum TokenType {
+    ARRAY_OPEN,
+    ARRAY_CLOSE,
+    OBJECT_OPEN,
+    OBJECT_CLOSE,
+    COMMA,
+    QUOTED_STRING,
+    VALUE,
+    NUMBER,
+    COLON
 }

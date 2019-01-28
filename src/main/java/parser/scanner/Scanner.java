@@ -14,7 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.scanner;
+
+import parser.exception.JsonParserException;
 
 public class Scanner {
 
@@ -90,13 +92,13 @@ public class Scanner {
             skipSpace();
             char c = next();
             if (c == '[') {
-                return new Token(null, TokenType.ARRAY);
+                return new Token(null, TokenType.ARRAY_OPEN);
             }
             if (c == ']') {
                 return new Token(null, TokenType.ARRAY_CLOSE);
             }
             if (c == '{') {
-                return new Token(null, TokenType.OBJECT);
+                return new Token(null, TokenType.OBJECT_OPEN);
             }
             if (c == '}') {
                 return new Token(null, TokenType.OBJECT_CLOSE);

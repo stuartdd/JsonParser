@@ -14,25 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.obj;
 
 import java.util.List;
 import java.util.Map;
 
-public class JsonObjValue implements JsonObj {
+public class JsonObjBoolean implements JsonObj {
 
-    private final String stringValue;
+    private final boolean bool;
 
-    public JsonObjValue(String stringValue) {
-        this.stringValue = stringValue;
+    public JsonObjBoolean(boolean bool) {
+        this.bool = bool;
     }
 
     @Override
     public boolean isEmpty() {
-        if (stringValue == null) {
-            return true;
-        }
-        return (stringValue.length() == 0);
+        return false;
     }
 
     @Override
@@ -42,12 +39,12 @@ public class JsonObjValue implements JsonObj {
 
     @Override
     public String toString() {
-        return stringValue;
+        return String.valueOf(bool);
     }
 
     @Override
     public Boolean getBoolean() {
-        return null;
+        return bool;
     }
 
     @Override

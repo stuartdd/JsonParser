@@ -14,24 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.obj;
 
 import java.util.List;
 import java.util.Map;
 
-public class JsonObjNamed implements JsonObj {
+public class JsonObjNum implements JsonObj {
 
-    private final String name;
-    private final JsonObj obj;
+    private final JsonNumber numValue;
 
-    public JsonObjNamed(String name, JsonObj obj) {
-        this.name = name;
-        this.obj = obj;
+    public JsonObjNum(String stringValue) {
+        this.numValue = new JsonNumber(stringValue);
     }
 
     @Override
     public boolean isEmpty() {
-        return (obj == null);
+        return false;
     }
 
     @Override
@@ -41,10 +39,7 @@ public class JsonObjNamed implements JsonObj {
 
     @Override
     public String toString() {
-        if (obj == null) {
-            return null;
-        }
-        return obj.toString();
+        return String.valueOf(numValue);
     }
 
     @Override
@@ -64,12 +59,11 @@ public class JsonObjNamed implements JsonObj {
 
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
     public JsonNumber getNumber() {
-        return null;
+        return numValue;
     }
-
 }

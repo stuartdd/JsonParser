@@ -14,24 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.exception;
 
-import java.util.List;
-import java.util.Map;
+import parser.*;
 
-public interface JsonObj {
+/**
+ *
+ * @author stuart
+ */
+public class JsonNumberFormatException extends JsonParserException {
 
-    boolean isEmpty();
+    public JsonNumberFormatException(String message) {
+        super(message, null);
+    }
 
-    int size();
-
-    JsonNumber getNumber();
-
-    String getName();
-
-    Boolean getBoolean();
-
-    Map<String, JsonObj> getMap();
-
-    List<JsonObj> getList();
 }

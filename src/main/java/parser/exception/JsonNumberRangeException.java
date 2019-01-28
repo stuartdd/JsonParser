@@ -14,50 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.exception;
 
-import java.util.List;
-import java.util.Map;
+import parser.*;
 
-public class JsonObjNull implements JsonObj {
+/**
+ *
+ * @author stuart
+ */
+public class JsonNumberRangeException extends JsonParserException {
 
-    @Override
-    public boolean isEmpty() {
-        return false;
+    public JsonNumberRangeException(String message) {
+        super(message, null);
     }
 
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public String toString() {
-        return "null";
-    }
-
-    @Override
-    public Boolean getBoolean() {
-        return null;
-    }
-
-    @Override
-    public Map<String, JsonObj> getMap() {
-        return null;
-    }
-
-    @Override
-    public List<JsonObj> getList() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public JsonNumber getNumber() {
-        return null;
-    }
 }

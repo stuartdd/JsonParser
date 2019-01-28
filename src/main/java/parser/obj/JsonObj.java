@@ -14,15 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
-public enum TokenType {
-    ARRAY,
-    ARRAY_CLOSE,
-    OBJECT,
-    OBJECT_CLOSE,
-    COMMA,
-    QUOTED_STRING,
-    VALUE,
-    NUMBER,
-    COLON
+package parser.obj;
+
+import java.util.List;
+import java.util.Map;
+
+public interface JsonObj {
+
+    boolean isEmpty();
+
+    int size();
+
+    JsonNumber getNumber();
+
+    String getName();
+
+    Boolean getBoolean();
+
+    Map<String, JsonObj> getMap();
+
+    List<JsonObj> getList();
 }

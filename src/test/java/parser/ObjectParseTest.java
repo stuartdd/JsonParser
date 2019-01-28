@@ -16,6 +16,8 @@
  */
 package parser;
 
+import parser.exception.JsonParserException;
+import parser.obj.JsonObj;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

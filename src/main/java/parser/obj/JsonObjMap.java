@@ -14,32 +14,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package parser;
+package parser.obj;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonObjNum implements JsonObj {
+public class JsonObjMap implements JsonObj {
 
-    private final JsonNumber numValue;
-
-    public JsonObjNum(String stringValue) {
-        this.numValue = new JsonNumber(stringValue);
-    }
+    private final Map<String, JsonObj> map = new HashMap<>();
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return map.isEmpty();
     }
 
     @Override
     public int size() {
-        return 0;
+        return map.size();
+    }
+
+    public void put(String name, JsonObj result) {
+        map.put(name, result);
     }
 
     @Override
     public String toString() {
-        return String.valueOf(numValue);
+        StringBuilder sb = new StringBuilder();
+        int mark = 0;
+        for (Map.Entry<String, JsonObj> e : map.entrySet()) {
+             sb.append(e.getKey()).append('=').append((e.getValue()==null?"null":e.getValue().toString()));
+            mark = sb.length();
+            sb.append(',');
+        }
+        sb.setLength(mark);
+        return '{' + sb.toString() + '}';
     }
 
     @Override
@@ -49,7 +58,7 @@ public class JsonObjNum implements JsonObj {
 
     @Override
     public Map<String, JsonObj> getMap() {
-        return null;
+        return map;
     }
 
     @Override
@@ -61,9 +70,9 @@ public class JsonObjNum implements JsonObj {
     public String getName() {
         return null;
     }
-
+ 
     @Override
     public JsonNumber getNumber() {
-        return numValue;
+        return null;
     }
 }

@@ -16,6 +16,19 @@
  */
 package parser;
 
+import parser.exception.JsonParserException;
+import parser.obj.JsonObjBoolean;
+import parser.obj.JsonObjList;
+import parser.obj.JsonObj;
+import parser.obj.JsonObjNull;
+import parser.obj.JsonObjNum;
+import parser.obj.JsonObjNamed;
+import parser.obj.JsonObjMap;
+import parser.obj.JsonObjValue;
+import parser.scanner.Token;
+import parser.scanner.Scanner;
+import parser.scanner.CharSet;
+
 public class Parser {
 
     private static final String VALUE_LIST = "'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE'";
@@ -40,9 +53,9 @@ public class Parser {
         while (true) {
             Token token = sc.nextToken();
             switch (token.getType()) {
-                case ARRAY:
+                case ARRAY_OPEN:
                     return parseList(sc);
-                case OBJECT:
+                case OBJECT_OPEN:
                     return parseObject(sc);
                 default:
                     throw new JsonParserException("Invalid JSON. Expecting { or [ as first non space char", sc);
@@ -56,7 +69,7 @@ public class Parser {
         JsonObjMap map = new JsonObjMap();
         while (!token.isObjectClose()) {
             if (token.isQuotedString()) {
-                String name = validateName(token.getStringValue(), sc);
+                String name = validateObjectName(token.getStringValue(), sc);
                 token = sc.nextToken();
                 if (token.isColon()) {
                     token = sc.nextToken();
@@ -71,10 +84,10 @@ public class Parser {
                         case QUOTED_STRING:
                             result = new JsonObjNamed(name, new JsonObjValue(v));
                             break;
-                        case ARRAY:
+                        case ARRAY_OPEN:
                             result = parseList(sc);
                             break;
-                        case OBJECT:
+                        case OBJECT_OPEN:
                             result = parseObject(sc);
                             break;
                     }
@@ -115,10 +128,10 @@ public class Parser {
                 case QUOTED_STRING:
                     result = new JsonObjValue(token.getStringValue());
                     break;
-                case ARRAY:
+                case ARRAY_OPEN:
                     result = parseList(sc);
                     break;
-                case OBJECT:
+                case OBJECT_OPEN:
                     result = parseObject(sc);
             }
             list.add(result);
@@ -135,7 +148,7 @@ public class Parser {
         return list;
     }
 
-    private static String validateName(String name, Scanner sc) {
+    private static String validateObjectName(String name, Scanner sc) {
         for (char c:name.toCharArray()) {
             if (!CharSet.isAny(c, CharSet.NCNAME)) {
                 throw new JsonParserException("Name value ["+name+"] is invalid", sc);
@@ -143,6 +156,7 @@ public class Parser {
         }
         return name;
     }
+    
     private static JsonObj objectForTokenValue(String tokenValue, Scanner sc) {
         if (tokenValue.equalsIgnoreCase("null")) {
             return new JsonObjNull();

@@ -16,6 +16,11 @@
  */
 package parser;
 
+import parser.exception.JsonParserException;
+import parser.scanner.Token;
+import parser.scanner.TokenType;
+import parser.scanner.CharSet;
+import parser.scanner.Scanner;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -28,10 +33,10 @@ public class TestScannerTest {
         assertEquals(TokenType.QUOTED_STRING, t.getType());
         assertEquals("ABC", t.getStringValue());
 
-        assertEquals(TokenType.ARRAY, si.nextToken().getType());
+        assertEquals(TokenType.ARRAY_OPEN, si.nextToken().getType());
         assertEquals(TokenType.ARRAY_CLOSE, si.nextToken().getType());
         assertEquals(TokenType.COMMA, si.nextToken().getType());
-        assertEquals(TokenType.OBJECT, si.nextToken().getType());
+        assertEquals(TokenType.OBJECT_OPEN, si.nextToken().getType());
         assertEquals(TokenType.COMMA, si.nextToken().getType());
 
         t = si.nextToken();
