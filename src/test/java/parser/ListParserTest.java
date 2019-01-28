@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2019 Stuart Davies (stuartdd)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package parser;
 
@@ -12,12 +23,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
-/**
- *
- * @author 802996013
- */
 public class ListParserTest {
-    
+
     @Test
     public void testParserRecursiveList2() {
         JsonObj obj = Parser.parse("[[false, true, true],[1,2]]");
@@ -27,7 +34,7 @@ public class ListParserTest {
         assertEquals(2, obj.size());
         assertEquals("[[false,true,true],[1,2]]", obj.toString());
     }
-    
+
     @Test
     public void testParserRecursiveList1() {
         JsonObj obj = Parser.parse("[[true, false, true]]");
@@ -37,7 +44,7 @@ public class ListParserTest {
         assertEquals(1, obj.size());
         assertEquals("[[true,false,true]]", obj.toString());
     }
-    
+
     @Test
     public void testParserRecursiveListUnbalenced1() {
         try {
@@ -59,7 +66,7 @@ public class ListParserTest {
         }
         fail("must throw exception");
     }
-    
+
     @Test
     public void testParserRecursiveListDiffTypes1() {
         try {
@@ -70,7 +77,7 @@ public class ListParserTest {
         }
         fail("must throw exception");
     }
-    
+
     @Test
     public void testParserRecursiveListDiffTypes2() {
         try {
@@ -81,7 +88,7 @@ public class ListParserTest {
         }
         fail("must throw exception");
     }
-    
+
     @Test
     public void testParserListSimpleValue3() {
         JsonObj obj = Parser.parse(" [ true, true, false] ");
@@ -143,5 +150,5 @@ public class ListParserTest {
         }
         fail("must throw exception");
     }
-    
+
 }

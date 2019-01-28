@@ -1,32 +1,38 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2019 Stuart Davies (stuartdd)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package parser;
 
-/**
- *
- * @author 802996013
- */
 public class CharSet {
-    private static final int NULL =     0x00000000;
-    public static final int ALF_LC =   0x00000002;
-    public static final int ALF_UC =   0x00000004;
-    private static final int ALF =      0x00000008;
 
-    public static final int SPACE =    0x00000010;
-    public static final int WS =       0x00000020;
-    public static final int US =       0x00000040;
-    public static final int NUM =      0x00000001;
-    public static final int DQUOTE =   0x00000080;
-    public static final int SQUOTE =   0x00000100;
-    public static final int DOT =      0x00000200;
-    public static final int HYPHEN =   0x00000400;
-    public static final int ESCAPE =   0x00000800;
-    
-    
-    
+    private static final int NULL = 0x00000000;
+    public static final int ALF_LC = 0x00000002;
+    public static final int ALF_UC = 0x00000004;
+    private static final int ALF = 0x00000008;
+
+    public static final int SPACE = 0x00000010;
+    public static final int WS = 0x00000020;
+    public static final int US = 0x00000040;
+    public static final int NUM = 0x00000001;
+    public static final int DQUOTE = 0x00000080;
+    public static final int SQUOTE = 0x00000100;
+    public static final int DOT = 0x00000200;
+    public static final int HYPHEN = 0x00000400;
+    public static final int ESCAPE = 0x00000800;
+
     public static final int ALPHA_NUM = ALF | NUM;
     public static final int ALPHA = ALF;
     public static final int FIRST_NCNAME = ALF | US;
@@ -138,10 +144,10 @@ private static final int[] masks = {
 };
 
     public static boolean isAll(int ch, int mask) {
-        return ((masks[ch & (int)0x0000007F] & mask) == mask);
+        return ((masks[ch & (int) 0x0000007F] & mask) == mask);
     }
-    
+
     public static boolean isAny(int ch, int mask) {
-        return ((masks[ch & (int)0x0000007F] & mask) != 0);
+        return ((masks[ch & (int) 0x0000007F] & mask) != 0);
     }
 }
