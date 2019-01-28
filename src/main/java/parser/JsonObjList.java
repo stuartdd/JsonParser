@@ -24,7 +24,7 @@ public class JsonObjList implements JsonObj {
             if (isCompatibleListType(list.get(0), obj)) {
                 list.add(obj);
             } else {
-                throw new JsonParserException("Objects in a list must be of the same type");
+                throw new JsonParserException("Objects in a list must be of the same type", null);
             }
         }
     }

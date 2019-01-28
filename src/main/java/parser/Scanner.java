@@ -111,9 +111,9 @@ public class Scanner {
                 back();
                 return new Token(scanValue(CharSet.NCNAME), TokenType.VALUE);
             }
-            throw new JsonParserException("Unrecognised token");
+            throw new JsonParserException("Unrecognised token", this);
         }
-        throw new JsonParserException("Unexpected end of string");
+        throw new JsonParserException("Unexpected end of string", this);
     }
 
     public String scanValue(int mask) {
@@ -149,7 +149,7 @@ public class Scanner {
                         return sb.toString();
                     }
                 } else {
-                    throw new JsonParserException("Unterminated quoted String");
+                    throw new JsonParserException("Unterminated quoted String", this);
                 }
                 sb.append(c);
             }

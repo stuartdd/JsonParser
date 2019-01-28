@@ -79,7 +79,7 @@ public class ObjectParseTest {
         try {
             Parser.parse("{\"true\":nIl}");
         } catch (JsonParserException e) {
-            assertTrue(e.getMessage().contains("Expected 'STRING'"));
+            assertTrue(e.getMessage().contains("Expected either null"));
             return;
         }
         fail("must throw exception");
@@ -90,7 +90,7 @@ public class ObjectParseTest {
         try {
             Parser.parse("{\"true\":filse}");
         } catch (JsonParserException e) {
-            assertTrue(e.getMessage().contains("Expected 'STRING'"));
+            assertTrue(e.getMessage().contains("Expected either null"));
             return;
         }
         fail("must throw exception");
@@ -112,7 +112,7 @@ public class ObjectParseTest {
         try {
             Parser.parse("{\"true\":hi}");
         } catch (JsonParserException e) {
-            assertTrue(e.getMessage().contains("Expected 'STRING'"));
+            assertTrue(e.getMessage().contains("Expected either null"));
             return;
         }
         fail("must throw exception");

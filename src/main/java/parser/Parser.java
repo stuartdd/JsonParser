@@ -15,10 +15,16 @@ public class Parser {
 
     public static JsonObj parse(String json) {
         Scanner sc = new Scanner(json);
-        JsonObj obj = parseListOrObject(sc);
+        JsonObj obj = null;
+        try {
+            obj = parseListOrObject(sc);
+        } catch (JsonParserException pe) {
+            pe.setScanner(sc);
+            throw pe;
+        }
         sc.skipSpace();
         if (sc.hasNext()) {
-            throw new JsonParserException("Invalid JSON. Tokens exist after parsing was finished");
+            throw new JsonParserException("Invalid JSON. Tokens exist after parsing was finished", sc);
         }
         return obj;
     }
@@ -32,7 +38,7 @@ public class Parser {
                 case OBJECT:
                     return parseObject(sc);
                 default:
-                    throw new JsonParserException("Invalid JSON. Expecting { or [ as first non space char");
+                    throw new JsonParserException("Invalid JSON. Expecting { or [ as first non space char", sc);
             }
         }
     }
@@ -53,23 +59,12 @@ public class Parser {
                             result = new JsonObjNum(v);
                             break;
                         case VALUE:
-                            if (v.equalsIgnoreCase("null")) {
-                                result = new JsonObjNull();
-                            } else {
-                                if (v.equalsIgnoreCase("true")) {
-                                    result = new JsonObjBoolean(true);
-                                } else {
-                                    if (v.equalsIgnoreCase("false")) {
-                                        result = new JsonObjBoolean(false);
-                                    }
-                                }
-                            }
+                            result = objectForTokenValue(token.getStringValue(), sc);
                             break;
                         case QUOTED_STRING:
                             result = new JsonObjNamed(name, new JsonObjValue(v));
                             break;
                         case ARRAY:
-                            sc.back();
                             result = parseList(sc);
                             break;
                         case OBJECT:
@@ -77,7 +72,7 @@ public class Parser {
                             break;
                     }
                     if (result == null) {
-                        throw new JsonParserException("Expected " + VALUE_LIST + ", '{', '[' after ':'");
+                        throw new JsonParserException("Expected " + VALUE_LIST + ", '{', '[' after ':'", sc);
                     }
                     token = sc.nextToken();
                     map.put(name, result);
@@ -85,17 +80,17 @@ public class Parser {
                         return map;
                     }
                     if (!token.isComma()) {
-                        throw new JsonParserException("Expected a valid " + VALUE_LIST);
+                        throw new JsonParserException("Expected a valid " + VALUE_LIST, sc);
                     }
                 } else {
-                    throw new JsonParserException("Expected a ':' after a named object");
+                    throw new JsonParserException("Expected a ':' after a named object", sc);
                 }
             } else {
-                throw new JsonParserException("Expected a quoted string value for a named object");
+                throw new JsonParserException("Expected a quoted string value for a named object", sc);
             }
             token = sc.nextToken();
         }
-        throw new JsonParserException("Expected an object");
+        throw new JsonParserException("Expected an object", sc);
     }
 
     private static JsonObj parseList(Scanner sc) {
@@ -108,11 +103,16 @@ public class Parser {
                     result = new JsonObjNum(token.getStringValue());
                     break;
                 case VALUE:
+                    result = objectForTokenValue(token.getStringValue(), sc);
+                    break;
                 case QUOTED_STRING:
                     result = new JsonObjValue(token.getStringValue());
                     break;
                 case ARRAY:
                     result = parseList(sc);
+                    break;
+                case OBJECT:
+                    result = parseObject(sc);
             }
             list.add(result);
 
@@ -122,9 +122,24 @@ public class Parser {
                     token = sc.nextToken();
                 }
             } else {
-                throw new JsonParserException("Unexpected end of list");
+                throw new JsonParserException("Unexpected end of list", sc);
             }
         }
         return list;
+    }
+
+    private static JsonObj objectForTokenValue(String tokenValue, Scanner sc) {
+        if (tokenValue.equalsIgnoreCase("null")) {
+            return new JsonObjNull();
+        } else {
+            if (tokenValue.equalsIgnoreCase("true")) {
+                return new JsonObjBoolean(true);
+            } else {
+                if (tokenValue.equalsIgnoreCase("false")) {
+                    return new JsonObjBoolean(false);
+                }
+            }
+        }
+        throw new JsonParserException("Expected either null, true, false, a number or a quoted String. Received '" + tokenValue + "'.", sc);
     }
 }

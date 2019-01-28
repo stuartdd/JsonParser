@@ -21,7 +21,7 @@ public class FullJsonTest {
     public void test2() {
         System.out.println(TEST2);
         JsonObj obj = Parser.parse(TEST2);
-        System.out.println(obj);
+        assertEquals("{menu={popup={menuitem=[{onclick=CreateNewDoc(),value=New},{onclick=OpenDoc(),value=Open},{onclick=CloseDoc(),value=Close}]},id=file}}", obj.toString());
     }
 
     @Test

@@ -14,7 +14,7 @@ import parser.*;
 public class JsonNumberRangeException extends JsonParserException {
 
     public JsonNumberRangeException(String message) {
-        super(message);
+        super(message, null);
     }
    
 }
