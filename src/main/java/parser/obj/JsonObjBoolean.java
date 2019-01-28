@@ -66,4 +66,14 @@ public class JsonObjBoolean implements JsonObj {
     public JsonNumber getNumber() {
         return null;
     }
+
+    @Override
+    public TYPE type() {
+        return TYPE.BOOL;
+    }
+
+    @Override
+    public JsonObj getObj() {
+        return null;
+    }
 }

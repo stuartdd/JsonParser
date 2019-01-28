@@ -16,16 +16,13 @@
  */
 package parser;
 
+import parser.common.JsonTestTools;
 import parser.obj.JsonObj;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class FullJsonTest {
+public class FullJsonTest extends JsonTestTools {
 
-    private static final String TEST4 = "{\"me_nu1\":{\"header\":\"SVGViewer\",\"items\":[null,{\"id\":\"Open\"},{\"id\":\"Original View\",\"label\":\"Original View\"},null,{\"id\":\"Quality\"},{\"id\":\"Mute\"},null,{\"id\":\"Find\",\"label\":\"Find...\"},{\"id\":\"Save As\",\"label\":\"Save As\"},null,{\"id\":\"Help\"},{\"id\":\"About\",\"label\":\"About Adobe CVG Viewer...\"}]}}";
-    private static final String TEST3 = "{\"widget\":{\"debug\":\"on\",\"window\":{\"name\":\"main_window\",\"width\":500,\"height\":500},\"image\":{\"src\":\"Images/Sun.png\",\"name\":\"sun1\"},\"text\":{\"size\":36.6,\"align\":true}}}";
-    private static final String TEST1 = "{\"menu\":{\"id\":\"file\",\"value\":123,\"show\":true,\"nullval\":null}}";
-    private static final String TEST2 = "{\"menu\":{\"id\":\"file\",\"popup\":{\"menuitem\":[{\"value\":\"New\",\"onclick\":\"CreateNewDoc()\"},{\"value\":\"Open\",\"onclick\":\"OpenDoc()\"},{\"value\":\"Close\",\"onclick\":\"CloseDoc()\"}]}}}";
 
     @Test
     public void test4() {

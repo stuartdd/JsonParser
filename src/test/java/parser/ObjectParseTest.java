@@ -16,12 +16,13 @@
  */
 package parser;
 
+import parser.common.JsonTestTools;
 import parser.exception.JsonParserException;
 import parser.obj.JsonObj;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class ObjectParseTest {
+public class ObjectParseTest extends JsonTestTools {
 
     @Test
     public void testParserObjectQSIntFloat() {
@@ -192,11 +193,4 @@ public class ObjectParseTest {
         fail("must throw exception");
     }
 
-    private void contains(String[] needles, JsonObj haystack) {
-        for (String needle:needles) {
-            if (!haystack.toString().contains(needle)) {
-                fail("Needle '"+needle+"' not found in haystack '"+haystack.toString()+"'");
-            }
-        }
-    }
 }

@@ -92,6 +92,16 @@ public class JsonObjList implements JsonObj {
     }
 
     private boolean isCompatibleListType(JsonObj obj1, JsonObj obj2) {
-         return (obj1.getClass().getName().equals(obj2.getClass().getName()));
+        return (obj1.getClass().getName().equals(obj2.getClass().getName()));
+    }
+
+    @Override
+    public TYPE type() {
+        return TYPE.LIST;
+    }
+    
+    @Override
+    public JsonObj getObj() {
+        return null;
     }
 }

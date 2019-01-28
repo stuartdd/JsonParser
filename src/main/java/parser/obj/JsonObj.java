@@ -21,6 +21,18 @@ import java.util.Map;
 
 public interface JsonObj {
 
+    enum TYPE {
+        BOOL,
+        NULL,
+        NUM,
+        NAMED,
+        LIST,
+        MAP,
+        VALUE
+    }
+
+    TYPE type();
+
     boolean isEmpty();
 
     int size();
@@ -28,6 +40,8 @@ public interface JsonObj {
     JsonNumber getNumber();
 
     String getName();
+
+    JsonObj getObj();
 
     Boolean getBoolean();
 

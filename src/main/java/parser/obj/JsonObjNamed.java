@@ -72,4 +72,14 @@ public class JsonObjNamed implements JsonObj {
         return null;
     }
 
+    @Override
+    public TYPE type() {
+        return TYPE.NAMED;
+    }
+    
+    @Override
+    public JsonObj getObj() {
+        return obj;
+    }
+
 }

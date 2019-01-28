@@ -60,4 +60,14 @@ public class JsonObjNull implements JsonObj {
     public JsonNumber getNumber() {
         return null;
     }
+
+    @Override
+    public TYPE type() {
+        return TYPE.NULL;
+    }
+
+    @Override
+    public JsonObj getObj() {
+        return null;
+    }
 }

@@ -66,4 +66,15 @@ public class JsonObjNum implements JsonObj {
     public JsonNumber getNumber() {
         return numValue;
     }
+
+    @Override
+    public TYPE type() {
+        return TYPE.NUM;
+    }
+
+    @Override
+    public JsonObj getObj() {
+        return null;
+    }
+
 }
