@@ -85,6 +85,17 @@ public class ObjectParseTest {
     }
 
     @Test
+    public void testParserObjValueQSInvalidName() {
+        try {
+            Parser.parse("{\"tr ue\":null}");
+        } catch (JsonParserException e) {
+            assertTrue(e.getMessage().contains("Name value"));
+            return;
+        }
+        fail("must throw exception");
+    }
+    
+    @Test
     public void testParserObjValueQSInvalidNil() {
         try {
             Parser.parse("{\"true\":nIl}");

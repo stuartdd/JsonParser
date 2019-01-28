@@ -49,7 +49,7 @@ public class Parser {
         JsonObjMap map = new JsonObjMap();
         while (!token.isObjectClose()) {
             if (token.isQuotedString()) {
-                String name = token.getStringValue();
+                String name = validateName(token.getStringValue(), sc);
                 token = sc.nextToken();
                 if (token.isColon()) {
                     token = sc.nextToken();
@@ -128,6 +128,14 @@ public class Parser {
         return list;
     }
 
+    private static String validateName(String name, Scanner sc) {
+        for (char c:name.toCharArray()) {
+            if (!CharSet.isAny(c, CharSet.NCNAME)) {
+                throw new JsonParserException("Name value ["+name+"] is invalid", sc);
+            }
+        }
+        return name;
+    }
     private static JsonObj objectForTokenValue(String tokenValue, Scanner sc) {
         if (tokenValue.equalsIgnoreCase("null")) {
             return new JsonObjNull();

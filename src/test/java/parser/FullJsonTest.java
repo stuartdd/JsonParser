@@ -14,30 +14,26 @@ import org.junit.Test;
  */
 public class FullJsonTest {
 
-    private static final String TEST4 = "{\"menu\":{\"header\":\"SVGViewer\",\"items\":[null,{\"id\":\"Open\"},{\"id\":\"Original View\",\"label\":\"Original View\"},null,{\"id\":\"Quality\"},{\"id\":\"Mute\"},null,{\"id\":\"Find\",\"label\":\"Find...\"},{\"id\":\"Save As\",\"label\":\"Save As\"},null,{\"id\":\"Help\"},{\"id\":\"About\",\"label\":\"About Adobe CVG Viewer...\"}]}}";
+    private static final String TEST4 = "{\"me_nu1\":{\"header\":\"SVGViewer\",\"items\":[null,{\"id\":\"Open\"},{\"id\":\"Original View\",\"label\":\"Original View\"},null,{\"id\":\"Quality\"},{\"id\":\"Mute\"},null,{\"id\":\"Find\",\"label\":\"Find...\"},{\"id\":\"Save As\",\"label\":\"Save As\"},null,{\"id\":\"Help\"},{\"id\":\"About\",\"label\":\"About Adobe CVG Viewer...\"}]}}";
     private static final String TEST3 = "{\"widget\":{\"debug\":\"on\",\"window\":{\"name\":\"main_window\",\"width\":500,\"height\":500},\"image\":{\"src\":\"Images/Sun.png\",\"name\":\"sun1\"},\"text\":{\"size\":36.6,\"align\":true}}}";
     private static final String TEST1 = "{\"menu\":{\"id\":\"file\",\"value\":123,\"show\":true,\"nullval\":null}}";
     private static final String TEST2 = "{\"menu\":{\"id\":\"file\",\"popup\":{\"menuitem\":[{\"value\":\"New\",\"onclick\":\"CreateNewDoc()\"},{\"value\":\"Open\",\"onclick\":\"OpenDoc()\"},{\"value\":\"Close\",\"onclick\":\"CloseDoc()\"}]}}}";
 
     @Test
     public void test4() {
-        System.out.println(TEST4);
         JsonObj obj = Parser.parse(TEST4);
         System.out.println(obj.toString());
-        assertEquals("{menu={header=SVGViewer,items=[null,{id=Open},{id=Original View,label=Original View},null,{id=Quality},{id=Mute},null,{id=Find,label=Find...},{id=Save As,label=Save As},null,{id=Help},{id=About,label=About Adobe CVG Viewer...}]}}", obj.toString());
+        assertEquals("{me_nu1={header=SVGViewer,items=[null,{id=Open},{id=Original View,label=Original View},null,{id=Quality},{id=Mute},null,{id=Find,label=Find...},{id=Save As,label=Save As},null,{id=Help},{id=About,label=About Adobe CVG Viewer...}]}}", obj.toString());
     }
     
     @Test
     public void test3() {
-        System.out.println(TEST3);
         JsonObj obj = Parser.parse(TEST3);
-        System.out.println(obj.toString());
         assertEquals("{widget={image={src=Images/Sun.png,name=sun1},debug=on,window={name=main_window,width=500,height=500},text={size=36.6,align=true}}}", obj.toString());
     }
 
     @Test
     public void test2() {
-        System.out.println(TEST2);
         JsonObj obj = Parser.parse(TEST2);
         assertEquals("{menu={popup={menuitem=[{onclick=CreateNewDoc(),value=New},{onclick=OpenDoc(),value=Open},{onclick=CloseDoc(),value=Close}]},id=file}}", obj.toString());
     }
@@ -45,7 +41,6 @@ public class FullJsonTest {
     @Test
     public void test1() {
         JsonObj obj = Parser.parse(TEST1);
-        System.out.println(obj);
         assertEquals("{menu={nullval=null,show=true,id=file,value=123}}", obj.toString());
     }
 
