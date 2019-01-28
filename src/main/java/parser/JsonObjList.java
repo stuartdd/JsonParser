@@ -21,7 +21,7 @@ public class JsonObjList implements JsonObj {
         if (list.isEmpty()) {
             list.add(obj);
         } else {
-            if (isCompatibleListType(list.get(0))) {
+            if (isCompatibleListType(list.get(0), obj)) {
                 list.add(obj);
             } else {
                 throw new JsonParserException("Objects in a list must be of the same type");
@@ -77,7 +77,7 @@ public class JsonObjList implements JsonObj {
         return null;
     }
 
-    private boolean isCompatibleListType(JsonObj obj) {
-        return (list.get(0).getClass().equals(obj.getClass()));
+    private boolean isCompatibleListType(JsonObj obj1, JsonObj obj2) {
+        return (obj1.getClass().getName().equals(obj2.getClass().getName()));
     }
 }

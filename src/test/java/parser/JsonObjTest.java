@@ -28,8 +28,11 @@ public class JsonObjTest {
         assertEquals(":N:U:B:U:U:U:M:U:L:0:S:0:T:E:[]", stringObj(list));
         list.add(new JsonObjNum("12345"));
         assertEquals(":N:U:B:U:U:U:M:U:L:1:S:1:T:F:[12345]", stringObj(list));
+        list = new JsonObjList();
         list.add(new JsonObjBoolean(true));
-        assertEquals(":N:U:B:U:U:U:M:U:L:2:S:2:T:F:[12345,true]", stringObj(list));
+        assertEquals(":N:U:B:U:U:U:M:U:L:1:S:1:T:F:[true]", stringObj(list));
+        list.add(new JsonObjBoolean(false));
+        assertEquals(":N:U:B:U:U:U:M:U:L:2:S:2:T:F:[true,false]", stringObj(list));
         JsonObjMap map = new JsonObjMap();
         assertEquals(":N:U:B:U:U:U:M:0:L:U:S:0:T:E:{}", stringObj(map));
         map.put("ob1", null);
