@@ -49,10 +49,10 @@ private static final int[] masks = {
     NULL,               // (  (left/open parenthesis)
     NULL,               // )  (right/closing parenth.)
     NULL,               // *    (asterisk)
-    NULL,               // +    (plus)
+    NULL | NUM,         // +    (plus)
     NULL,               // ,    (comma)
-    HYPHEN,             // -    (minus or dash)
-    DOT,                // .    (dot)
+    HYPHEN | NUM,       // -    (minus or dash)
+    DOT | NUM,          // .    (dot)
     NULL,               // /    (forward slash)
     NUM,                // 0
     NUM,                // 1

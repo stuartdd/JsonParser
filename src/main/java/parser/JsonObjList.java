@@ -16,15 +16,21 @@ import java.util.Map;
 public class JsonObjList implements JsonObj {
 
     private final List<JsonObj> list = new ArrayList<>();
+    private JsonObj nonNullListType = null;
 
     public void add(JsonObj obj) {
-        if (list.isEmpty()) {
+        if (obj instanceof JsonObjNull) {
             list.add(obj);
         } else {
-            if (isCompatibleListType(list.get(0), obj)) {
+            if (nonNullListType == null) {
                 list.add(obj);
+                nonNullListType = obj;
             } else {
-                throw new JsonParserException("Objects in a list must be of the same type", null);
+                if (isCompatibleListType(nonNullListType, obj)) {
+                    list.add(obj);
+                } else {
+                    throw new JsonParserException("Objects in a list must be of the same type", null);
+                }
             }
         }
     }
@@ -78,6 +84,6 @@ public class JsonObjList implements JsonObj {
     }
 
     private boolean isCompatibleListType(JsonObj obj1, JsonObj obj2) {
-        return (obj1.getClass().getName().equals(obj2.getClass().getName()));
+         return (obj1.getClass().getName().equals(obj2.getClass().getName()));
     }
 }

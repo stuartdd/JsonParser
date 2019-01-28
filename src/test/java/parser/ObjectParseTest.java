@@ -15,15 +15,25 @@ import org.junit.Test;
 public class ObjectParseTest {
 
     @Test
+    public void testParserObjectQSIntFloat() {
+        JsonObj obj = Parser.parse("{\"int\":12345,\"double\":1.23456789,\"minus\":-12.4,\"plus\":+123}");
+        assertNotNull(obj);
+        assertFalse(obj.isEmpty());
+        assertEquals("JsonObjMap", obj.getClass().getSimpleName());
+        assertEquals(4, obj.size());
+        contains(new String[] {"minus=-12.4","double=1.23456789","int=12345","plus=+123"}, obj);
+    }
+
+    @Test
     public void testParserObjectQSIntAndNull() {
         JsonObj obj = Parser.parse("{\"value\":\"12345A\",\"nullValue\":\"nullStr\"}");
         assertNotNull(obj);
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(2, obj.size());
-        assertEquals("{value=12345A,nullValue=nullStr}", obj.toString());
+        contains(new String[] {"value=12345A","nullValue=nullStr"}, obj);
     }
-    
+
     @Test
     public void testParserObjectIntAndNull() {
         JsonObj obj = Parser.parse("{\"value\":12345,\"nullValue\":null}");
@@ -31,9 +41,9 @@ public class ObjectParseTest {
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(2, obj.size());
-        assertEquals("{value=12345,nullValue=null}", obj.toString());
+        contains(new String[] {"value=12345","nullValue=null"}, obj);
     }
-    
+
     @Test
     public void testParserObjectInt() {
         JsonObj obj = Parser.parse("{\"value\":12345}");
@@ -41,9 +51,9 @@ public class ObjectParseTest {
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(1, obj.size());
-        assertEquals("{value=12345}", obj.toString());
+        contains(new String[] {"value=12345"}, obj);
     }
-    
+
     @Test
     public void testParserObjectTrue() {
         JsonObj obj = Parser.parse("{\"value\":true}");
@@ -51,9 +61,9 @@ public class ObjectParseTest {
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(1, obj.size());
-        assertEquals("{value=true}", obj.toString());
+        contains(new String[] {"value=true"}, obj);
     }
-    
+
     @Test
     public void testParserObjectFalse() {
         JsonObj obj = Parser.parse("{\"value\":false}");
@@ -61,9 +71,9 @@ public class ObjectParseTest {
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(1, obj.size());
-        assertEquals("{value=false}", obj.toString());
+        contains(new String[] {"value=false"}, obj);
     }
-    
+
     @Test
     public void testParserObjectNull() {
         JsonObj obj = Parser.parse("{\"value\":null}");
@@ -71,9 +81,9 @@ public class ObjectParseTest {
         assertFalse(obj.isEmpty());
         assertEquals("JsonObjMap", obj.getClass().getSimpleName());
         assertEquals(1, obj.size());
-        assertEquals("{value=null}", obj.toString());
+        contains(new String[] {"value=null"}, obj);
     }
- 
+
     @Test
     public void testParserObjValueQSInvalidNil() {
         try {
@@ -162,5 +172,11 @@ public class ObjectParseTest {
         fail("must throw exception");
     }
 
-    
+    private void contains(String[] needles, JsonObj haystack) {
+        for (String needle:needles) {
+            if (!haystack.toString().contains(needle)) {
+                fail("Needle '"+needle+"' not found in haystack '"+haystack.toString()+"'");
+            }
+        }
+    }
 }
