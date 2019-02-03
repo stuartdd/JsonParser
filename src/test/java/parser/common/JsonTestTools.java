@@ -5,6 +5,9 @@
  */
 package parser.common;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import static org.junit.Assert.fail;
 import parser.obj.JsonObj;
 
@@ -26,5 +29,18 @@ public class JsonTestTools {
             }
         }
     }
+    
+    public static String getResource(String fileName, Class clazz) throws IOException {
+        StringBuilder result = new StringBuilder("");
+            InputStream is = clazz.getResourceAsStream(fileName);
+            if (is == null) {
+                throw new FileNotFoundException("Failed to find resource file[" + fileName + "]");
+            }
+            while (is.available() > 0) {
+                result.append((char) is.read());
+            }
+        return result.toString();
+    }
+
 
 }

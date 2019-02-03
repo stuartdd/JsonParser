@@ -16,6 +16,7 @@
  */
 package parser;
 
+import java.io.IOException;
 import parser.common.JsonTestTools;
 import parser.obj.JsonObj;
 import static org.junit.Assert.*;
@@ -23,6 +24,25 @@ import org.junit.Test;
 
 public class FullJsonTest extends JsonTestTools {
 
+    @Test
+    public void testFromFile() throws IOException {
+        String s = JsonTestTools.getResource("/testParserData.json", this.getClass());
+        try {
+            JsonObj obj = Parser.parse(s);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void test5() {
+        try {
+            Parser.parse("{\"P0\":\"\", \"P1\":\"../\"}");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+    }
 
     @Test
     public void test4() {
@@ -30,7 +50,7 @@ public class FullJsonTest extends JsonTestTools {
         System.out.println(obj.toString());
         assertEquals("{me_nu1={header=SVGViewer,items=[null,{id=Open},{id=Original View,label=Original View},null,{id=Quality},{id=Mute},null,{id=Find,label=Find...},{id=Save As,label=Save As},null,{id=Help},{id=About,label=About Adobe CVG Viewer...}]}}", obj.toString());
     }
-    
+
     @Test
     public void test3() {
         JsonObj obj = Parser.parse(TEST3);

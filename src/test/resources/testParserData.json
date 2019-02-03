@@ -1,0 +1,40 @@
+{
+    "system" : {"server.port":"8080"},
+    "allowServerStopCtrl":true,
+    "formatTimeStamp":"dd-MM-yyyy'T'HH:mm:ss.SZ",
+    "validateLocations":false,
+    "resources": {
+        "historyMaxLen": 20,
+        "root": "/home/pi/PiServer/web",
+        "users": {
+            "stuart": "/media/shares/stuart",
+            "nonuser": "/media/shares/nonuser",
+            "shared": "/media/shares/shared"
+        },
+        "locations": {
+            "logs": "/logs",
+            "cache" : "/logs/cache",
+            "scripts" : "src/test/resources/scripts",
+            "thumbnail": "/thumbnails",
+            "userData": "src/test/resources/userData",
+            "audio" : "/home/pi/PiServer/web/audio"
+        }
+    },
+
+    "functions": {
+        "echoScriptOutput": true,
+        "poleForTime" : 200000,
+        "linuxScriprPrefix" : "./",
+        "osSubDir" : {"win":"win"},
+        "commands": {
+            "notImplemented" : {"func":"notImplemented"},
+            "notScript": {"func":"scriptAll", "file":"notScript.sh", "P0":"", "P1":"../"},
+            "minRcError": {"func":"scriptBetween", "file":"getPathTree.sh", "P1":"--error", "minRC":0},
+            "ufs": {"func":"readFileFromLocation", "location":"cache", "file":"userFileSizes.log"},
+            "testtree": {"func":"scriptBetween", "file":"getPathTree.sh", "P0":"", "P1":"src/trst"},
+            "log": {"func":"rsyncLogs", "script":"./listFiles.sh", "dir":"/logs", "id":"log"},
+            "vol" : {"func":"extractVolume", "script":"./setVolume.sh" ,"$1":"level"},
+            "getVol" : {"func":"extractVolume", "script":"./getVolume.sh"}
+        }
+    }
+}

@@ -110,7 +110,8 @@ public class Scanner {
                 return new Token(null, TokenType.COLON);
             }
             if (c == '"') {
-                return new Token(scanQuotedString(c), TokenType.QUOTED_STRING);
+                Token x = new Token(scanQuotedString(c), TokenType.QUOTED_STRING);
+                return x;
             }
             if (CharSet.isAny(c, CharSet.NUM)) {
                 back();
@@ -169,12 +170,12 @@ public class Scanner {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        int from = pos - 20;
+        int from = pos - 40;
         if (from < 0) {
             from = 0;
         }
         int p = from;
-        while ((sb.length() < 40) && (p < buffer.length)) {
+        while ((sb.length() < 60) && (p < buffer.length)) {
             if (p == pos) {
                 sb.append('|');
             }
