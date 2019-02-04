@@ -149,14 +149,22 @@ public class Parser {
     }
 
     private static String validateObjectName(String name, Scanner sc) {
-        for (char c:name.toCharArray()) {
-            if (!CharSet.isAny(c, CharSet.NCNAME)) {
-                throw new JsonParserException("Name value ["+name+"] is invalid", sc);
+        char c;
+        for (int i = 0; i < name.length(); i++) {
+            c = name.charAt(i);
+            if (i == 0) {
+                if (!CharSet.isAny(c, CharSet.FIRST_NCNAME)) {
+                    throw new JsonParserException("Name value [" + name + "] first char is invalid", sc);
+                }
+            } else {
+                if (!CharSet.isAny(c, CharSet.NCNAME)) {
+                    throw new JsonParserException("Name value [" + name + "] is invalid", sc);
+                }
             }
         }
         return name;
     }
-    
+
     private static JsonObj objectForTokenValue(String tokenValue, Scanner sc) {
         if (tokenValue.equalsIgnoreCase("null")) {
             return new JsonObjNull();

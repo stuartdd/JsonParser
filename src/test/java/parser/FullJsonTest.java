@@ -17,6 +17,7 @@
 package parser;
 
 import java.io.IOException;
+import java.util.Map;
 import parser.common.JsonTestTools;
 import parser.obj.JsonObj;
 import static org.junit.Assert.*;
@@ -28,7 +29,12 @@ public class FullJsonTest extends JsonTestTools {
     public void testFromFile() throws IOException {
         String s = JsonTestTools.getResource("/testParserData.json", this.getClass());
         try {
-            JsonObj obj = Parser.parse(s);
+            Object obj = Transform.listsAndMaps(s);
+            if (obj instanceof Map) {
+                Map m = (Map)obj;
+                Object o = m.get("functions");
+                System.out.println(o);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -36,18 +42,13 @@ public class FullJsonTest extends JsonTestTools {
 
     @Test
     public void test5() {
-        try {
-            Parser.parse("{\"P0\":\"\", \"P1\":\"../\"}");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail();
-        }
+        JsonObj obj = Parser.parse("{\"P0\":\"\", \"P1\":\"../\"}");
+        assertEquals("{P0=,P1=../}", obj.toString());
     }
 
     @Test
     public void test4() {
         JsonObj obj = Parser.parse(TEST4);
-        System.out.println(obj.toString());
         assertEquals("{me_nu1={header=SVGViewer,items=[null,{id=Open},{id=Original View,label=Original View},null,{id=Quality},{id=Mute},null,{id=Find,label=Find...},{id=Save As,label=Save As},null,{id=Help},{id=About,label=About Adobe CVG Viewer...}]}}", obj.toString());
     }
 

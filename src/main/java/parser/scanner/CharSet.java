@@ -32,10 +32,11 @@ public class CharSet {
     public static final int DOT = 0x00000200;
     public static final int HYPHEN = 0x00000400;
     public static final int ESCAPE = 0x00000800;
+    public static final int DOLLER = 0x00001000;
 
     public static final int ALPHA_NUM = ALF | NUM;
     public static final int ALPHA = ALF;
-    public static final int FIRST_NCNAME = ALF | US;
+    public static final int FIRST_NCNAME = ALF | US | DOLLER;
     public static final int NCNAME = ALF | NUM | US | DOT | HYPHEN;
     public static final int QUOTE = DQUOTE | SQUOTE;
     
@@ -48,7 +49,7 @@ private static final int[] masks = {
     NULL,               // !    (exclamation mark)
     DQUOTE,             // "    (double quote)
     NULL,               // #    (number sign)
-    NULL,               // $    (dollar sign)
+    DOLLER,             // $    (dollar sign)
     NULL,               // %    (percent)
     NULL,               // &    (ampersand)
     SQUOTE,             // '    (single quote)

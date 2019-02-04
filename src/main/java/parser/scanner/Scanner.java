@@ -152,6 +152,9 @@ public class Scanner {
                     sb.append(c);
                 }
             } else {
+                if (c == delim) {
+                    return sb.toString();
+                }
                 if (hasNext()) {
                     if (peek() == delim) {
                         next();
