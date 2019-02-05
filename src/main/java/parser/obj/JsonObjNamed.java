@@ -24,7 +24,7 @@ public class JsonObjNamed implements JsonObj {
     private final String name;
     private final JsonObj obj;
 
-    public JsonObjNamed(String name, JsonObj obj) {
+    public JsonObjNamed(final String name, final JsonObj obj) {
         this.name = name;
         this.obj = obj;
     }

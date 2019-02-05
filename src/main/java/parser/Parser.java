@@ -33,7 +33,8 @@ public class Parser {
 
     private static final String VALUE_LIST = "'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE'";
 
-    public static JsonObj parse(String json) {
+    
+    public static JsonObj parse(final String json) {
         Scanner sc = new Scanner(json);
         JsonObj obj = null;
         try {
@@ -49,7 +50,7 @@ public class Parser {
         return obj;
     }
 
-    private static JsonObj parseListOrObject(Scanner sc) {
+    private static JsonObj parseListOrObject(final Scanner sc) {
         while (true) {
             Token token = sc.nextToken();
             switch (token.getType()) {
@@ -63,11 +64,11 @@ public class Parser {
         }
     }
 
-    private static JsonObj parseObject(Scanner sc) {
-        Token token = sc.nextToken();
+    private static JsonObj parseObject(final Scanner sc) {
         JsonObj result = null;
         JsonObjMap map = new JsonObjMap();
-        while (!token.isObjectClose()) {
+        Token token = sc.nextToken();
+        while (token.isNotObjectClose()) {
             if (token.isQuotedString()) {
                 String name = validateObjectName(token.getStringValue(), sc);
                 token = sc.nextToken();
@@ -89,7 +90,6 @@ public class Parser {
                             break;
                         case OBJECT_OPEN:
                             result = parseObject(sc);
-                            break;
                     }
                     if (result == null) {
                         throw new JsonParserException("Expected " + VALUE_LIST + ", '{', '[' after ':'", sc);
@@ -99,7 +99,7 @@ public class Parser {
                     if (token.isObjectClose()) {
                         return map;
                     }
-                    if (!token.isComma()) {
+                    if (token.isNotComma()) {
                         throw new JsonParserException("Expected a valid " + VALUE_LIST, sc);
                     }
                 } else {
@@ -113,10 +113,10 @@ public class Parser {
         throw new JsonParserException("Expected an object", sc);
     }
 
-    private static JsonObj parseList(Scanner sc) {
-        Token token = sc.nextToken();
+    private static JsonObj parseList(final Scanner sc) {
         JsonObjList list = new JsonObjList();
         JsonObj result = null;
+        Token token = sc.nextToken();
         while (!token.isArrayClose()) {
             switch (token.getType()) {
                 case NUMBER:
@@ -135,7 +135,6 @@ public class Parser {
                     result = parseObject(sc);
             }
             list.add(result);
-
             token = sc.nextToken();
             if (token.isComma() || (token.isArrayClose())) {
                 if (token.isComma()) {
@@ -148,7 +147,7 @@ public class Parser {
         return list;
     }
 
-    private static String validateObjectName(String name, Scanner sc) {
+    private static String validateObjectName(final String name, final Scanner sc) {
         char c;
         for (int i = 0; i < name.length(); i++) {
             c = name.charAt(i);
@@ -165,7 +164,7 @@ public class Parser {
         return name;
     }
 
-    private static JsonObj objectForTokenValue(String tokenValue, Scanner sc) {
+    private static JsonObj objectForTokenValue(final String tokenValue, final Scanner sc) {
         if (tokenValue.equalsIgnoreCase("null")) {
             return new JsonObjNull();
         } else {

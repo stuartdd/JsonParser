@@ -23,7 +23,7 @@ public class JsonObjBoolean implements JsonObj {
 
     private final boolean bool;
 
-    public JsonObjBoolean(boolean bool) {
+    public JsonObjBoolean(final boolean bool) {
         this.bool = bool;
     }
 

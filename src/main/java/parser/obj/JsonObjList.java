@@ -26,7 +26,7 @@ public class JsonObjList implements JsonObj {
     private final List<JsonObj> list = new ArrayList<>();
     private JsonObj nonNullListType = null;
 
-    public void add(JsonObj obj) {
+    public void add(final JsonObj obj) {
         if (obj instanceof JsonObjNull) {
             list.add(obj);
         } else {
@@ -91,7 +91,7 @@ public class JsonObjList implements JsonObj {
         return null;
     }
 
-    private boolean isCompatibleListType(JsonObj obj1, JsonObj obj2) {
+    private boolean isCompatibleListType(final JsonObj obj1, final JsonObj obj2) {
         return (obj1.getClass().getName().equals(obj2.getClass().getName()));
     }
 

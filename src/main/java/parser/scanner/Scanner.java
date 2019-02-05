@@ -25,21 +25,10 @@ public class Scanner {
 
     private int pos;
 
-    public Scanner(String input) {
+    public Scanner(final String input) {
         this.buffer = input.toCharArray();
         this.pos = 0;
         this.max = this.buffer.length;
-    }
-
-    public int pos() {
-        return pos;
-    }
-
-    public char peek() {
-        if (pos < max) {
-            return buffer[pos];
-        }
-        return 0;
     }
 
     public char next() {
@@ -60,27 +49,25 @@ public class Scanner {
         return pos;
     }
 
-    public int skipSpace() {
+    public void skipSpace() {
         while (hasNext()) {
             if (next() > ' ') {
                 back();
-                return pos;
+                return;
             }
         }
-        return 0;
     }
 
-    public int skipToNext(char c) {
+    public void skipToNext(final char c) {
         while (hasNext()) {
             if (next() == c) {
                 back();
-                return pos;
+                return;
             }
         }
-        return 0;
     }
 
-    public boolean isNext(int mask) {
+    public boolean isNext(final int mask) {
         if (hasNext()) {
             return CharSet.isAny(buffer[pos], mask);
         }
@@ -88,15 +75,9 @@ public class Scanner {
     }
 
     public Token nextToken() {
+        skipSpace();
         if (hasNext()) {
-            skipSpace();
             char c = next();
-            if (c == '[') {
-                return new Token(null, TokenType.ARRAY_OPEN);
-            }
-            if (c == ']') {
-                return new Token(null, TokenType.ARRAY_CLOSE);
-            }
             if (c == '{') {
                 return new Token(null, TokenType.OBJECT_OPEN);
             }
@@ -110,37 +91,28 @@ public class Scanner {
                 return new Token(null, TokenType.COLON);
             }
             if (c == '"') {
-                Token x = new Token(scanQuotedString(c), TokenType.QUOTED_STRING);
-                return x;
+                return new Token(scanQuotedString(c), TokenType.QUOTED_STRING);
+            }
+            if (c == '[') {
+                return new Token(null, TokenType.ARRAY_OPEN);
+            }
+            if (c == ']') {
+                return new Token(null, TokenType.ARRAY_CLOSE);
             }
             if (CharSet.isAny(c, CharSet.NUM)) {
                 back();
-                return new Token(scanValue(CharSet.NUM), TokenType.NUMBER);
+                return new Token(scanValueWithMask(CharSet.NUM), TokenType.NUMBER);
             }
             if (CharSet.isAny(c, CharSet.FIRST_NCNAME)) {
                 back();
-                return new Token(scanValue(CharSet.NCNAME), TokenType.VALUE);
+                return new Token(scanValueWithMask(CharSet.NCNAME), TokenType.VALUE);
             }
             throw new JsonParserException("Unrecognised token", this);
         }
         throw new JsonParserException("Unexpected end of string", this);
     }
 
-    public String scanValue(int mask) {
-        StringBuilder sb = new StringBuilder();
-        while (hasNext()) {
-            char c = next();
-            if (CharSet.isAny(c, mask)) {
-                sb.append(c);
-            } else {
-                back();
-                return sb.toString();
-            }
-        }
-        return sb.toString();
-    }
-
-    public String scanQuotedString(char delim) {
+    public String scanQuotedString(final char delim) {
         StringBuilder sb = new StringBuilder();
         while (hasNext()) {
             char c = next();
@@ -156,7 +128,7 @@ public class Scanner {
                     return sb.toString();
                 }
                 if (hasNext()) {
-                    if (peek() == delim) {
+                    if (buffer[pos] == delim) {
                         next();
                         sb.append(c);
                         return sb.toString();
@@ -195,4 +167,17 @@ public class Scanner {
         return "Scanner len[" + buffer.length + "] pos[" + pos + "] " + (pos < max ? "next[" + buffer[pos] + "]" : "") + "-->" + sb + "<--";
     }
 
+    private String scanValueWithMask(final int mask) {
+        StringBuilder sb = new StringBuilder();
+        while (hasNext()) {
+            char c = next();
+            if (CharSet.isAny(c, mask)) {
+                sb.append(c);
+            } else {
+                back();
+                return sb.toString();
+            }
+        }
+        return sb.toString();
+    }
 }

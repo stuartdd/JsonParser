@@ -22,22 +22,40 @@ import parser.common.JsonTestTools;
 import parser.obj.JsonObj;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import parser.obj.JsonNumber;
 
 public class FullJsonTest extends JsonTestTools {
 
     @Test
     public void testFromFile() throws IOException {
-        String s = JsonTestTools.getResource("/testParserData.json", this.getClass());
-        try {
-            Object obj = Transform.listsAndMaps(s);
-            if (obj instanceof Map) {
-                Map m = (Map)obj;
-                Object o = m.get("functions");
-                System.out.println(o);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        String json = JsonTestTools.getResource("/testParserData.json", this.getClass());
+        Map<String, Object> map = Transform.flattenOrdered(json);
+        assertEquals(true, map.get("functions.echoScriptOutput"));
+        assertEquals(200000l, ((Number) map.get("functions.poleForTime")).longValue());
+        assertEquals(8080, ((Number) map.get("system.server.port")).intValue());
+        assertEquals(20, ((Number) map.get("resources.historyMaxLen")).intValue());
+        assertEquals("level", map.get("functions.commands.vol.$1"));
+        assertEquals("rsyncLogs", map.get("functions.commands.log.func"));
+        assertEquals("", map.get("functions.commands.testtree.P0"));
+        assertFalse((Boolean) map.get("validateLocations"));
+        assertTrue((Boolean) map.get("allowServerStopCtrl"));
+        assertTrue((Boolean) map.get("functions.echoScriptOutput"));
+    }
+
+    @Test
+    public void testFlattenOrdered1() {
+        testFlatOrdered("menu.id=file | menu.nullval=null | menu.show=true | menu.value=123", TEST1);
+    }
+
+    @Test
+    public void testFlattenOrdered2() {
+        testFlatOrdered("menu.id=file | "
+                + "menu.popup.menuitem.0.onclick=CreateNewDoc() | "
+                + "menu.popup.menuitem.0.value=New | "
+                + "menu.popup.menuitem.1.onclick=OpenDoc() | "
+                + "menu.popup.menuitem.1.value=Open | "
+                + "menu.popup.menuitem.2.onclick=CloseDoc() | "
+                + "menu.popup.menuitem.2.value=Close", TEST2);
     }
 
     @Test

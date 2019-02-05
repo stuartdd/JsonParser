@@ -24,7 +24,7 @@ public class JsonNumber extends Number {
     private final double number;
     private final String numberString;
 
-    public JsonNumber(String numAsString) {
+    public JsonNumber(final String numAsString) {
         this.numberString = numAsString;
         try {
             this.number = Double.parseDouble(numAsString);

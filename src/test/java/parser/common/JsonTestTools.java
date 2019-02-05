@@ -8,7 +8,10 @@ package parser.common;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import static org.junit.Assert.fail;
+import parser.Parser;
+import parser.Transform;
 import parser.obj.JsonObj;
 
 /**
@@ -42,5 +45,27 @@ public class JsonTestTools {
         return result.toString();
     }
 
+    public static String mapString(Map<String, Object> map, String sep) {
+        StringBuilder sb = new StringBuilder();
+        int mark = 0;
+        for (Map.Entry<String, Object> s:map.entrySet()) {
+            sb.append(s.getKey()).append('=').append(s.getValue());
+            mark = sb.length();
+            sb.append(sep);
+        }
+        sb.setLength(mark);
+        return sb.toString();
+    }
+    
+    public void testFlatOrdered(String exp, String json) {
+        JsonObj obj = Parser.parse(json);
+        String res = mapString(Transform.flattenOrdered(obj), " | ");
+        if (exp.equals(res)) {
+            return;
+        }
+        System.out.println("FLATTEN Comparison error:\n"+json+"\n"+exp+"\n"+res);
+        fail("FLATTEN Comparison error:\n"+json+"\n"+exp+"\n"+res);
+    }
+    
 
 }

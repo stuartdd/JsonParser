@@ -1,5 +1,5 @@
 {
-    "system" : {"server.port":"8080"},
+    "system" : {"server.port":8080},
     "allowServerStopCtrl":true,
     "formatTimeStamp":"dd-MM-yyyy'T'HH:mm:ss.SZ",
     "validateLocations":false,

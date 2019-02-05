@@ -34,7 +34,7 @@ public class JsonObjMap implements JsonObj {
         return map.size();
     }
 
-    public void put(String name, JsonObj result) {
+    public void put(final String name, final JsonObj result) {
         map.put(name, result);
     }
 

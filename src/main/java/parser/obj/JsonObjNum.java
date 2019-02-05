@@ -23,7 +23,7 @@ public class JsonObjNum implements JsonObj {
 
     private final JsonNumber numValue;
 
-    public JsonObjNum(String stringValue) {
+    public JsonObjNum(final String stringValue) {
         this.numValue = new JsonNumber(stringValue);
     }
 

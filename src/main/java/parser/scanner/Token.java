@@ -21,7 +21,7 @@ public class Token {
     private final String stringValue;
     private final TokenType type;
 
-    public Token(String stringValue, TokenType type) {
+    public Token(final String stringValue, final TokenType type) {
         this.stringValue = stringValue;
         this.type = type;
     }
@@ -42,8 +42,16 @@ public class Token {
         return type.equals(TokenType.OBJECT_CLOSE);
     }
 
+    public boolean isNotObjectClose() {
+        return !type.equals(TokenType.OBJECT_CLOSE);
+    }
+
     public boolean isComma() {
         return type.equals(TokenType.COMMA);
+    }
+
+    public boolean isNotComma() {
+        return !type.equals(TokenType.COMMA);
     }
 
     public boolean isColon() {

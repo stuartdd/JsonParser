@@ -23,7 +23,7 @@ public class JsonObjValue implements JsonObj {
 
     private final String stringValue;
 
-    public JsonObjValue(String stringValue) {
+    public JsonObjValue(final String stringValue) {
         this.stringValue = stringValue;
     }
 

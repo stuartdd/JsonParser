@@ -144,11 +144,11 @@ private static final int[] masks = {
     NULL                // Padding!    
 };
 
-    public static boolean isAll(int ch, int mask) {
+    public static boolean isAll(final int ch, final int mask) {
         return ((masks[ch & (int) 0x0000007F] & mask) == mask);
     }
 
-    public static boolean isAny(int ch, int mask) {
+    public static boolean isAny(final int ch, final int mask) {
         return ((masks[ch & (int) 0x0000007F] & mask) != 0);
     }
 }
