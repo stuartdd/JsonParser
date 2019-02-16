@@ -64,6 +64,16 @@ public class FullJsonTest extends JsonTestTools {
         assertEquals("{P0=,P1=../}", obj.toString());
     }
 
+//    @Test
+//    public void testFromFile() throws IOException {
+//        String s = JsonTestTools.getResource("/testParserData.json", this.getClass());
+//        try {
+//            JsonObj obj = Parser.parse(s);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+    
     @Test
     public void test4() {
         JsonObj obj = Parser.parse(TEST4);
